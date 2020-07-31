@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../static/images/favicon.ico">
+
+    <title th:text="${travelProduct.getTravelTitle()} + '行程安排'"></title>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/navbar-static-top.css}" rel="stylesheet">
+
+    <link th:href="@{/css/search.css}" rel="stylesheet"/>
+    <link th:href="@{/css/navbar-flex.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/MDB/bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/css/MDB/mdb.css}" rel="stylesheet"/>
+    <link th:href="@{/css/MDB/mdb.lite.css}" rel="stylesheet"/>
+    <!--    <link href="CSS/MDB/mdb.lite.min.css" rel="stylesheet" />-->
+    <link th:href="@{/css/MDB/style.css}" rel="stylesheet"/>
+
+    <script type="text/javascript" th:src="@{/js/MDB/jquery.js}"></script>
+    <!--    <script type="text/javascript" src="JS/MDB/jquery.min.js"></script>-->
+    <script type="text/javascript" th:src="@{/js/MDB/popper.js}"></script>
+    <!--    <script type="text/javascript" src="JS/MDB/popper.min.js"></script>-->
+    <script type="text/javascript" th:src="@{/js/MDB/bootstrap.js}"></script>
+    <!--    <script type="text/javascript" src="JS/MDB/bootstrap.min.js"></script>-->
+    <script type="text/javascript" th:src="@{/js/MDB/mdb.js}"></script>
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/js/ie8-responsive-file-warning.js}"></script><![endif]-->
+    <script th:src="@{/js/ie-emulation-modes-warning.js}"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .isSelectOption {
+            color: red;
+        }
+
+        .parentDiv {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .childDiv {
+            position: absolute;
+            left: 50%;
+        }
+
+        .imageLabel {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .slideImage {
+            width: 50%;
+            height: 50%;
+        }
+
+        .spaceDiv {
+            width: 100%;
+            height: 10px;
+            background-color: aliceblue;
+        }
+
+        .spaceIconDiv {
+            height: 100%;
+            width: 20px;
+            background-color: white;
+        }
+
+        .labelDiv {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background-color: azure;
+            border: 1px;
+            margin: 10px;
+            flex-wrap: nowrap;
+        }
+
+        .holeDiv {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .travelOperate {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .saveLabel {
+            margin-right: 20px;
+        }
+
+        .saveSvg {
+            color: red;
+        }
+
+        .stokeDay {
+            width: 60px;
+        }
+
+        .stokeInfo {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            width: 90%;
+        }
+
+        .stokeSchedule {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .arrowSvg {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 15%;
+        }
+    </style>
+</head>
+
+<body>
+
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark primary-color">
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse flex3" id="basicExampleNav">
+        <a class="nav-link" href="#">
+            <div class="flex-items">
+                <p class="navOptions  isSelectOption">行程安排</p>
+            </div>
+        </a>
+        <a class="nav-link"
+           th:href="@{/travelController/travelDetail(travelId=${travelProduct.getTravelId()})}">
+            <div class="flex-items">
+                <p class="navOptions">图文详情</p>
+            </div>
+        </a>
+        <a class="nav-link" href="#">
+            <div class="flex-items">
+                <p class="navOptions">费用说明</p>
+            </div>
+        </a>
+        <a class="nav-link" href="#">
+            <div class="flex-items">
+                <p class="navOptions">使用说明</p>
+            </div>
+        </a>
+    </div>
+    <!-- Collapsible content -->
+
+</nav>
+<div class="spaceDiv"></div>
+
+<div class="container">
+    <div class="list-group">
+        <a class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 512 512">
+                        <title>ionicons-v5-e</title>
+                        <path d="M256,56C145.72,56,56,145.72,56,256s89.72,200,200,200,200-89.72,200-200S366.28,56,256,56Zm0,82a26,26,0,1,1-26,26A26,26,0,0,1,256,138Zm48,226H216a16,16,0,0,1,0-32h28V244H228a16,16,0,0,1,0-32h32a16,16,0,0,1,16,16V332h28a16,16,0,0,1,0,32Z"
+                              fill="#0000FF"/>
+                    </svg>
+                    <p class="mb-2 h5 text-primary">行程安排</p>
+                </div>
+            </div>
+        </a>
+        <div class="spaceDiv"></div>
+        <input type="hidden" id="travelId" th:value="${travelProduct.getTravelId()}">
+        <input type="hidden" id="travelDate" th:value="${travelProduct.getTravelDate()}">
+        <input type="hidden" id="travelPrice" th:value="${travelProduct.getTravelPrice()}">
+        <a href="#" class="list-group-item list-group-item-action flex-column align-items-start"
+           th:each="key: ${travelStoke.keySet()}">
+            <div class="d-flex w-100 justify-content-between ">
+                <div class="holeDiv">
+                    <div class="stokeDay">
+                        <h5 class="mb-2 h5" th:text="'第' + ${key} + '天'"></h5>
+                    </div>
+                    <div class="arrowSvg">
+                        <svg width="3em" height="3em" viewBox="0 0 16 16" class="bi bi-arrow-down-circle"
+                             fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                            <path fill-rule="evenodd"
+                                  d="M4.646 7.646a.5.5 0 0 1 .708 0L8 10.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"
+                                  fill="#0000FF"/>
+                            <path fill-rule="evenodd" d="M8 4.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5z"
+                                  fill="#0000FF"/>
+                        </svg>
+                    </div>
+                    <div class="stokeInfo">
+                        <th:block th:each="stoke: ${travelStoke.get(key)}">
+                            <th:block th:each="data: ${stoke.keySet()}">
+                                <div class="stokeSchedule">
+                                    <p class="mb-2 h5" th:text="${stoke.get(data)}"></p>
+                                </div>
+                            </th:block>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="childDiv">
+        <div class="travelOperate">
+            <div class="imageLabel saveLabel">
+                <div id="saveDiv" class="list-group-item list-group-item-action flex-column align-items-start">
+                    <th:block th:switch="${isSave}">
+                        <div th:case="false">
+                            <svg width="2.5em" height="2.5em" viewBox="0 0 16 16" class="bi bi-heart"
+                                 fill="currentColor"
+                                 xmlns="http://www.w3.org/2000/svg" id="saveIcon">
+                                <path fill-rule="evenodd" id="saveIconPath"
+                                      d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641
+                                  2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542
+                                  6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8
+                                  2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12
+                                   3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"
+                                      fill="#fffff"/>
+                            </svg>
+                        </div>
+                        <div th:case="true">
+                            <svg width="2.5em" height="2.5em" viewBox="0 0 16 16" class="bi bi-heart"
+                                 fill="red" xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                      d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641
+                                  2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542
+                                  6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8
+                                  2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12
+                                   3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"
+                                      fill="red"/>
+                            </svg>
+                        </div>
+                    </th:block>
+                    <div>
+                        <h5 class="mb-2 h5">收藏</h5>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="button" class="btn btn-warning btn-rounded" id="reserveButton">立即预定</button>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        const saveIcon = document.getElementById("saveIcon");
+        const saveDiv = document.getElementById("saveDiv");
+        const reserveButton = document.getElementById("reserveButton");
+        const saveIconPath = document.getElementById("saveIconPath");
+
+        saveDiv.addEventListener("click", function () {
+            const travelId = document.getElementById("travelId").value;
+            const travelPrice = document.getElementById("travelPrice").value;
+            const travelDate = document.getElementById("travelDate").value;
+            $.ajax({
+                url: "/User/addUserSaveTravel",
+                method: "Get",
+                data: {travelId: travelId, travelDate: travelDate, travelPrice: travelPrice},
+                success: function (responseText) {
+                    const result = parseInt(responseText);
+                    if (result > 0) {
+                        saveIcon.setAttribute("fill", "red");
+                        saveIconPath.setAttribute("fill", "red");
+                        saveIcon.removeAttribute("id");
+                        saveIconPath.removeAttribute("id");
+                        saveDiv.removeAttribute("id");
+                    } else {
+                        alert("添加到收藏失败!");
+                    }
+                }
+            });
+        });
+
+        reserveButton.addEventListener("click", function () {
+            const travelId = document.getElementById("travelId").value;
+            const travelPrice = document.getElementById("travelPrice").value;
+            const travelDate = document.getElementById("travelDate").value;
+            $.ajax({
+                url: "/User/addBookTravel",
+                method: "Get",
+                data: {travelId: travelId, travelPrice: travelPrice, travelDate: travelDate},
+                success: function (responseText) {
+                    const result = parseInt(responseText);
+                    if (result > 0) {
+                        alert("预订成功!");
+                    } else {
+                        alert("预订失败!");
+                    }
+                }
+            });
+        });
+    </script>
+    <div style="width: 100%; height: 300px;"></div>
+</div> <!-- /container -->
+
+<nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+            aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse flex2 parentDiv" id="navbarCollapse">
+        <div class="flex-items">
+            <div class="imageLabel">
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 512 512">
+                        <title>ionicons-v5-f</title>
+                        <path d="M456.69,421.39,362.6,327.3a173.81,173.81,0,0,0,34.84-104.58C397.44,126.38,319.06,48,222.72,48S48,126.38,48,222.72s78.38,174.72,174.72,174.72A173.81,173.81,0,0,0,327.3,362.6l94.09,94.09a25,25,0,0,0,35.3-35.3ZM97.92,222.72a124.8,124.8,0,1,1,124.8,124.8A124.95,124.95,0,0,1,97.92,222.72Z"
+                              fill="#000000"/>
+                    </svg>
+                </div>
+                <div>
+                    <p class="navOptions isSelectOption">旅游产品</p>
+                </div>
+            </div>
+        </div>
+        <div class="flex-items">
+            <a class="nav-link" href="/raider">
+                <div class="imageLabel">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 512 512">
+                            <title>ionicons-v5-f</title>
+                            <path d="M256,448a32,32,0,0,1-18-5.57c-78.59-53.35-112.62-89.93-131.39-112.8-40-48.75-59.15-98.8-58.61-153C48.63,114.52,98.46,64,159.08,64c44.08,0,74.61,24.83,92.39,45.51a6,6,0,0,0,9.06,0C278.31,88.81,308.84,64,352.92,64,413.54,64,463.37,114.52,464,176.64c.54,54.21-18.63,104.26-58.61,153-18.77,22.87-52.8,59.45-131.39,112.8A32,32,0,0,1,256,448Z"
+                                  fill="#ffffff"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="navOptions">旅游攻略</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="flex-items">
+            <a class="nav-link" href="/myInfo">
+                <div class="imageLabel">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 512 512">
+                            <title>ionicons-v5-j</title>
+                            <path d="M332.64,64.58C313.18,43.57,286,32,256,32c-30.16,0-57.43,11.5-76.8,32.38-19.58,21.11-29.12,49.8-26.88,80.78C156.76,206.28,203.27,256,256,256s99.16-49.71,103.67-110.82C361.94,114.48,352.34,85.85,332.64,64.58Z"
+                                  fill="#ffffff"/>
+                            <path d="M432,480H80A31,31,0,0,1,55.8,468.87c-6.5-7.77-9.12-18.38-7.18-29.11C57.06,392.94,83.4,353.61,124.8,326c36.78-24.51,83.37-38,131.2-38s94.42,13.5,131.2,38c41.4,27.6,67.74,66.93,76.18,113.75,1.94,10.73-.68,21.34-7.18,29.11A31,31,0,0,1,432,480Z"
+                                  fill="#ffffff"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="navOptions">我的</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script>
+    window.jQuery || document.write('<script th:src="@{/js/jquery.min.js}"><\/script>')
+</script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script th:src="@{/js/ie10-viewport-bug-workaround.js}"></script>
+</body>
+
+</html>

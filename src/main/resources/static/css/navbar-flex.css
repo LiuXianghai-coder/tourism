@@ -1,0 +1,71 @@
+.selectPage {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.navOptions {
+    font-family: kaiti, serif;
+    font-size: 3.0em;
+    color: white;
+    margin: auto;
+}
+
+.optionsStyle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 300px;
+}
+
+.navOptionStyle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 150px;
+}
+
+.flex2 {
+    display: flex;
+    justify-content: space-around;
+}
+
+.flex3 {
+    display: flex;
+    justify-content: space-between;
+}
+
+.flex-items {
+    margin: 10px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.travelList {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.travelImage {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 20px;
+}
+
+.travelCompent {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.travelDetail {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.travelProductTitle {
+    font-family: monospace;
+    font-size: 3.0em;
+}

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" th:href="@{/images/favicon.ico}">
+
+    <title>撰写攻略</title>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link th:href="@{/css/ie10-viewport-bug-workaround.css}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/navbar-static-top.css}" rel="stylesheet">
+
+    <link th:href="@{/css/search.css}" rel="stylesheet"/>
+    <link th:href="@{/css/navbar-flex.css}" rel="stylesheet"/>
+
+    <link th:href="@{/css/MDB/bootstrap.css}" rel="stylesheet"/>
+    <link th:href="@{/css/MDB/mdb.css}" rel="stylesheet"/>
+    <link th:href="@{/css/MDB/mdb.lite.css}" rel="stylesheet"/>
+    <!--    <link href="CSS/MDB/mdb.lite.min.css" rel="stylesheet" />-->
+    <link th:href="@{/css/MDB/style.css}" rel="stylesheet"/>
+
+    <script type="text/javascript" th:src="@{/js/MDB/jquery.js}"></script>
+    <!--    <script type="text/javascript" src="JS/MDB/jquery.min.js"></script>-->
+    <script type="text/javascript" th:src="@{/js/MDB/popper.js}"></script>
+    <!--    <script type="text/javascript" src="JS/MDB/popper.min.js"></script>-->
+    <script type="text/javascript" th:src="@{/js/MDB/bootstrap.js}"></script>
+    <!--    <script type="text/javascript" src="JS/MDB/bootstrap.min.js"></script>-->
+    <script type="text/javascript" th:src="@{/js/MDB/mdb.js}"></script>
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]>
+    <script th:src="@{/js/ie8-responsive-file-warning.js}"></script><![endif]-->
+    <script th:src="@{/js/ie-emulation-modes-warning.js}"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+        .titleInput {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .title {
+            width: 80%;
+            height: 100%;
+            margin-right: 5px;
+        }
+
+        .selectFont {
+            width: 20%;
+            height: 100%;
+        }
+
+        .raiderContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin-right: 20px;
+        }
+
+        .raiderDetail {
+            width: 100%;
+        }
+
+        .buttonList {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-content: center;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <th:block th:object="${userId}">
+        <input type="hidden" id="userId" th:value="${userId}">
+    </th:block>
+    <div class="md-form raiderDetail titleInput">
+        <div class="title">
+            <div class="md-form">
+                <input type="text" id="raiderTitle" class="form-control form-control-lg" required>
+                <label for="raiderTitle">请输入攻略标题</label>
+            </div>
+        </div>
+        <div class="selectFont">
+            <label for="raider_kind"></label>
+            <select class="browser-default custom-select" id="raider_kind">
+                <option selected>选择攻略所属类型</option>
+                <option value="1" selected="selected">人文古迹</option>
+                <option value="2">自然名胜</option>
+            </select>
+        </div>
+    </div>
+    <div class="raiderContent" id="raiderContent_1">
+        <div class="md-form raiderDetail titleInput">
+            <div class="title">
+                <input id="raiderContentId_1" class="form-control" type="text" required>
+                <label for="raiderContentId_1">请输入副标题</label>
+            </div>
+            <div class="selectFont">
+                <label for="font_size_1"></label>
+                <select class="browser-default custom-select" id="font_size_1">
+                    <option selected>选择标题字体大小</option>
+                    <option value="1" selected="selected">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group raiderDetail">
+            <label for="raiderContentText_1">攻略内容</label>
+            <textarea class="form-control" id="raiderContentText_1" rows="7" required></textarea>
+        </div>
+    </div>
+    <div class="buttonList">
+        <button type="button" class="btn btn-primary btn-rounded" id="resetButton">清除</button>
+        <button type="button" class="btn btn-primary btn-rounded" id="uploadButton">提交</button>
+        <button type="button" class="btn btn-primary btn-rounded" id="addContent">增加副文本</button>
+        <button type="button" class="btn btn-primary btn-rounded" id="removeContent">移除副文本</button>
+    </div>
+</div>
+<script type="text/javascript">
+    let idIndex = 1;
+    $("#addContent").click(function () {
+        $("<div class=\"raiderContent\" id=\"raiderContent_" + ++idIndex + "\">\n" +
+            "        <div class=\"md-form raiderDetail titleInput\">\n" +
+            "            <div class=\"title\">\n" +
+            "                <input id=\"raiderContentId_" + idIndex + "\" class=\"form-control\" type=\"text\" required>\n" +
+            "                <label for=\"raiderContentId_" + idIndex + "\">请输入副标题</label>\n" +
+            "            </div>\n" +
+            "            <div class=\"selectFont\">\n" +
+            "                <label for=\"font_size_" + idIndex + "\"></label>\n" +
+            "                <select class=\"browser-default custom-select\" id=\"font_size_" + idIndex +"\">\n" +
+            "                    <option selected>选择标题字体大小</option>\n" +
+            "                    <option value=\"1\" selected=\"selected\">1</option>\n" +
+            "                    <option value=\"2\">2</option>\n" +
+            "                    <option value=\"3\">3</option>\n" +
+            "                    <option value=\"4\">4</option>\n" +
+            "                </select>\n" +
+            "            </div>\n" +
+            "        </div>\n" +
+            "        <div class=\"form-group raiderDetail\">\n" +
+            "            <label for=\"raiderContentText_" + idIndex + "\">攻略内容</label>\n" +
+            "            <textarea class=\"form-control\" id=\"raiderContentText_" + idIndex +
+            "\" rows=\"7\" required></textarea>\n" +
+            "        </div>\n" +
+            "    </div>").insertAfter($("#raiderContent_" + (idIndex - 1)));
+    });
+    $("#removeContent").click(function () {
+        if (idIndex > 1) {
+            $("#raiderContent_" + idIndex--).remove();
+        }
+    });
+
+    $("#resetButton").click(function () {
+        if (confirm("你确定要清除输入的文本吗？")) {
+            $("#raiderTitle").val('');
+            for (let i = 1; i <= idIndex; ++i) {
+                console.log("index: " + i);
+                $("#raiderContentId_" + i).val('');
+                $("#raiderContentText_" + i).val('');
+            }
+        }
+    });
+
+    $("#uploadButton").click(function () {
+        const today = new Date();
+        const dd = String(today.getDate()).padStart(2, '0');
+        const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        const yyyy = today.getFullYear();
+        const hour = today.getHours();
+        const minute = today.getMinutes();
+        const second = today.getMilliseconds();
+
+        const dateString = yyyy + mm + dd + hour + minute + second;
+        let raiderId;
+
+        const userId = $("#userId").val();
+        if (userId.length < 15) {
+            raiderId = userId + dateString;
+        } else {
+            raiderId = userId.substring(0, 10) + dateString;
+        }
+
+        const dataArray = [];
+        let step = 1;
+
+        const raiderEntity = {};
+        raiderEntity.raiderId = raiderId;
+        raiderEntity.stars = 0;
+        raiderEntity.visits = 0;
+        raiderEntity.raiderTitle = $("#raiderTitle").val();
+        raiderEntity.raiderDate = yyyy + "-" + mm + "-" + dd;
+        raiderEntity.dateBetween = 0;
+
+        const raiderKind = {};
+        raiderKind.raiderId = raiderId;
+        raiderKind.kindId = $("#raider_kind").val();
+
+        for (let i = 1; i <= idIndex; ++i) {
+            const data1 = {};
+            const data2 = {};
+
+            data1.raiderId = raiderId;
+            data1.detail = $("#raiderContentId_" + i).val();
+            data1.raiderStep = step++;
+            data1.fontSize = $("#font_size_" + i).val();
+
+            dataArray.push(data1);
+
+            data2.raiderId = raiderId;
+            data2.detail = $("#raiderContentText_" + i).val();
+            data2.raiderStep = step++;
+            data2.fontSize = 1;
+
+            dataArray.push(data2);
+        }
+
+        $.ajax({
+            method: "POST",
+            url: "/raiderController/saveRaiderDetail",
+            data: {raiderKindJson: JSON.stringify(raiderKind),
+                raiderEntityJson: JSON.stringify(raiderEntity),
+                dataJson: JSON.stringify(dataArray)},
+            success: function (responseText) {
+                const result = parseInt(responseText);
+                if (result > 0) {
+                    window.location.href = "/raider";
+                } else {
+                    alert("撰写攻略失败!");
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
